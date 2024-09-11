@@ -17,6 +17,10 @@ def sent_detector():
     sadness = response['sadness']
     dominant_emotion = response['dominant_emotion']
 
+    # Verificar si la emoción dominante es None
+    if dominant_emotion is None:
+        return "Invalid text! Please try again!."
+        
     return (
         f"For the given statement, the system's response is 'anger': {anger}, "
         f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}, "

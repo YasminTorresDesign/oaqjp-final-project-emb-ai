@@ -2,11 +2,35 @@ import requests
 import json
 
 def emotion_detector(text_to_analyze):
+    # Verificar si el texto a analizar está vacío
+    if not text_to_analyze.strip():
+        # Si el texto está vacío, devolver el diccionario con None para todas las emociones
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
+
     URL = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
     Headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     Input_json = { "raw_document": { "text": text_to_analyze } }
     response = requests.post(URL, json = Input_json, headers=Headers)
     
+    # Verificar el código de estado de la respuesta
+    if response.status_code == 400:
+        # Si el código de estado es 400, devolver el diccionario con None para todas las emociones
+        return {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
+
     # Convertir la respuesta en un diccionario
     response_dict = response.json()
     
